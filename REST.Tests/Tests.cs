@@ -13,20 +13,8 @@ namespace REST.Tests
         [Test]
         public async Task Test()
         {
-            await using var application = new WebApplicationFactory<Program>()
-                .WithWebHostBuilder(builder =>
-                {
-                    builder.ConfigureServices(services =>
-                    {
-                        services.AddDataAccessDependencies();
-                        services.SeedInMemoryDatabase();
-                        services.AddBusinessLogicServices();
-                        services.AddControllers();
-                    });
-                });
-
+            await using var application = new WebApplicationFactory<Program>();
             using var client = application.CreateClient();
-
             var response = await client.GetStringAsync("/api/Category/1");
             StringAssert.Contains("Math", response);
         }
